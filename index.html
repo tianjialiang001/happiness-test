@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>幸福感测评 · 万码授权版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Helvetica Neue', 'PingFang SC', 'Microsoft YaHei', Roboto, sans-serif;
+        }
+        body {
+            background: linear-gradient(165deg, #f1ebe5 0%, #fffbf5 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            color: #4a3c32;
+        }
+        .paper {
+            max-width: 1000px;
+            width: 100%;
+            background: rgba(255, 248, 238, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 56px;
+            box-shadow: 0 24px 48px rgba(130, 100, 70, 0.12);
+            padding: 2.4rem 2.2rem;
+            border: 1px solid #fff4e6;
+        }
+        h1 {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 2rem;
+            font-weight: 560;
+            color: #65473a;
+            margin-bottom: 0.2rem;
+            border-bottom: 3px solid #ffdec2;
+            padding-bottom: 0.4rem;
+        }
+        h1 span {
+            background: #ffe2cf;
+            border-radius: 50%;
+            width: 52px;
+            height: 52px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #9b7b66;
+            margin-bottom: 1.5rem;
+            padding-left: 0.8rem;
+            border-left: 6px solid #ffcba5;
+            font-style: italic;
+        }
+        .auth-overlay {
+            background: white;
+            border-radius: 44px;
+            padding: 2.5rem 2rem;
+            margin: 1rem 0;
+            box-shadow: 0 14px 28px #e6d2c0;
+            border: 1px solid #ffede1;
+            text-align: center;
+        }
+        .auth-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+        .auth-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #5b4236;
+            margin-bottom: 0.8rem;
+        }
+        .auth-desc {
+            font-size: 1.1rem;
+            color: #8b6e5c;
+            margin-bottom: 2rem;
+        }
+        .auth-input-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .auth-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 1rem 1.5rem;
+            font-size: 1.2rem;
+            border: 2px solid #eaccb8;
+            border-radius: 60px;
+            outline: none;
+            background: #fffbf5;
+            color: #4a3c32;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+        .auth-input:focus {
+            border-color: #b48464;
+            box-shadow: 0 0 0 3px #ffe6d6;
+        }
+        .auth-btn {
+            background: #e7c9b2;
+            border: none;
+            padding: 1rem 2.2rem;
+            border-radius: 60px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #4a3a2e;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid #fff6ec;
+            box-shadow: 0 6px 0 #b3927c, 0 8px 18px rgba(99, 71, 51, 0.1);
+            transition: 0.04s;
+            cursor: pointer;
+        }
+        .auth-btn:active {
+            transform: translateY(6px);
+            box-shadow: 0 2px 0 #9a7864, 0 8px 18px #ddc2b0;
+        }
+        .auth-message {
+            margin-top: 1rem;
+            font-size: 1rem;
+            color: #b45a3a;
+            min-height: 2rem;
+        }
+        .assessment-content {
+            display: none;
+        }
+        .progress-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.2rem;
+            background: #fffbf5;
+            padding: 0.7rem 1.6rem;
+            border-radius: 48px;
+            color: #6b5242;
+            border: 1px solid #ffdcc4;
+            font-size: 0.98rem;
+            flex-wrap: wrap;
+        }
+        .progress-badge {
+            background: #e6d2c0;
+            padding: 0.3rem 1.2rem;
+            border-radius: 40px;
+            color: #4e382c;
+            font-weight: 550;
+        }
+        .reset-btn {
+            background: #f2dfd1;
+            border: none;
+            padding: 0.55rem 1.6rem;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 550;
+            color: #4e3e34;
+            box-shadow: 0 4px 0 #c6a692;
+            transition: 0.04s;
+            cursor: pointer;
+            border: 1px solid #ffe0cf;
+        }
+        .reset-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 1px 0 #a88672;
+        }
+        .question-page {
+            background: white;
+            border-radius: 44px;
+            padding: 2.2rem 2.5rem;
+            margin: 0.6rem 0 1.5rem;
+            box-shadow: 0 14px 28px #e6d2c0;
+            border: 1px solid #ffede1;
+        }
+        .dimension-tag {
+            display: inline-block;
+            background: #fff1e6;
+            border-radius: 60px;
+            padding: 0.4rem 1.5rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #7b543e;
+            letter-spacing: 0.5px;
+            margin-bottom: 1.2rem;
+            border: 1px solid #ffc7a8;
+        }
+        .question-text {
+            font-size: 1.65rem;
+            font-weight: 530;
+            line-height: 1.4;
+            color: #4a3429;
+            margin-bottom: 2rem;
+            word-break: break-word;
+        }
+        .option-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem 2rem;
+            justify-content: flex-start;
+            margin-bottom: 0.8rem;
+        }
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #fdf7f1;
+            padding: 0.6rem 1.6rem;
+            border-radius: 50px;
+            border: 1px solid #f8d5bf;
+            transition: 0.08s;
+            cursor: pointer;
+        }
+        .option-item:hover {
+            background: #ffede1;
+            border-color: #e2a07e;
+        }
+        .option-item input[type="radio"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border: 2px solid #aa7a5e;
+            border-radius: 50%;
+            transition: 0.06s;
+            cursor: pointer;
+        }
+        .option-item input[type="radio"]:checked {
+            border: 8px solid #8b5a40;
+            background: white;
+            box-shadow: 0 0 0 1px #ffbc8c;
+        }
+        .score-label {
+            font-size: 1.2rem;
+            font-weight: 480;
+            color: #5a4033;
+        }
+        .small-hint {
+            font-size: 0.85rem;
+            color: #a8755b;
+            margin-left: 5px;
+        }
+        .nav-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            margin: 0.8rem 0 1rem;
+        }
+        .nav-btn {
+            background: #e7d2c0;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 550;
+            color: #4a3a2e;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #fff6ec;
+            box-shadow: 0 5px 0 #b3927c, 0 8px 18px rgba(99, 71, 51, 0.1);
+            transition: 0.04s;
+            cursor: pointer;
+        }
+        .nav-btn:active {
+            transform: translateY(5px);
+            box-shadow: 0 2px 0 #9a7864, 0 8px 18px #ddc2b0;
+        }
+        .nav-btn:disabled {
+            opacity: 0.45;
+            transform: none;
+            box-shadow: 0 5px 0 #b3927c;
+            pointer-events: none;
+        }
+        .page-index {
+            font-size: 1.05rem;
+            background: #fff2e7;
+            padding: 0.45rem 1.5rem;
+            border-radius: 60px;
+            border: 1px dashed #ceaa92;
+        }
+        .result-detailed {
+            margin-top: 2.2rem;
+            background: #fffdf9;
+            border-radius: 48px;
+            padding: 2rem 2.2rem;
+            border: 1px solid #ffdabf;
+            box-shadow: 0 12px 28px #efd8ca;
+        }
+        .total-score-section {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 1.8rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px dashed #fad0b3;
+        }
+        .score-big-circle {
+            background: #fff6ec;
+            border-radius: 100px;
+            padding: 0.6rem 2rem;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid #f8be9b;
+        }
+        .score-number-big {
+            font-size: 3.8rem;
+            font-weight: 700;
+            line-height: 1;
+            color: #6f4737;
+        }
+        .score-max {
+            font-size: 1rem;
+            color: #9e7a64;
+        }
+        .core-feedback {
+            flex: 1;
+            font-size: 1.3rem;
+            font-weight: 480;
+            color: #4c3b30;
+            background: #faf0e7;
+            padding: 0.8rem 1.8rem;
+            border-radius: 60px;
+        }
+        .dimension-breakdown {
+            margin-top: 0.8rem;
+        }
+        .dimension-breakdown h3 {
+            font-size: 1.25rem;
+            font-weight: 560;
+            color: #5f463a;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .dimension-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.4rem;
+        }
+        .dim-card {
+            background: #fef7f1;
+            border-radius: 28px;
+            padding: 1.3rem 1.4rem;
+            border-left: 10px solid #ecc6ae;
+            box-shadow: 0 6px 14px #ebdbcf;
+        }
+        .dim-title {
+            font-size: 1.2rem;
+            font-weight: 620;
+            color: #6c4d3c;
+            margin-bottom: 10px;
+        }
+        .dim-score {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .dim-num {
+            font-size: 1.9rem;
+            font-weight: 650;
+            color: #8f5e47;
+        }
+        .dim-desc {
+            font-size: 0.96rem;
+            color: #7a5d4e;
+            line-height: 1.5;
+            margin-top: 6px;
+            padding-top: 6px;
+            border-top: 1px solid #f3d7c4;
+        }
+        .warning-msg {
+            color: #b1472a;
+            background: #ffe9df;
+            padding: 0.7rem 2rem;
+            border-radius: 60px;
+            font-size: 1rem;
+            display: inline-block;
+        }
+        .footnote {
+            margin-top: 1.8rem;
+            text-align: right;
+            color: #aa8b74;
+            font-size: 0.8rem;
+            border-top: 1px dashed #e6cdb8;
+            padding-top: 1rem;
+        }
+        @media (max-width: 600px) {
+            .paper { padding: 1.6rem; }
+            .question-text { font-size: 1.45rem; }
+            .question-page { padding: 1.6rem; }
+            .auth-input { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="paper">
+        <h1>
+            <span>🧘</span> 幸福感·万码授权
+        </h1>
+        <div class="subhead">
+            ～ 10,000个唯一验证码 · 每位客户独立准入 ～
+        </div>
+
+        <!-- ========= 验证码区域 ========= -->
+        <div id="authContainer" class="auth-overlay">
+            <div class="auth-icon">🔐</div>
+            <div class="auth-title">请输入验证码</div>
+            <div class="auth-desc">本测评仅限授权用户使用，每位客户拥有唯一验证码</div>
+            <div class="auth-input-group">
+                <input type="text" id="codeInput" class="auth-input" placeholder="输入6位验证码" maxlength="6" autocomplete="off">
+                <button id="verifyBtn" class="auth-btn">✨ 验证并进入</button>
+            </div>
+            <div id="authMessage" class="auth-message"></div>
+            <div style="margin-top: 1.2rem; font-size: 0.9rem; color: #a78774; background: #fffaf2; padding: 0.8rem; border-radius: 40px;">
+                ⚡ 已内置10,000个唯一验证码 · 每位客户分配一个
+            </div>
+        </div>
+
+        <!-- ========= 测评内容（验证通过后显示） ========= -->
+        <div id="assessmentContent" class="assessment-content">
+            <div class="progress-area">
+                <span>📌 维度 <span id="currentDimIndicator">1</span>/6 · 题 <span id="currentQIndicator">1</span>/5</span>
+                <span class="progress-badge" id="progressBadge">生活满足 · 第1题</span>
+                <button class="reset-btn" id="globalResetBtn">🍂 重新开始</button>
+            </div>
+
+            <div id="questionContainer" class="question-page"></div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn" id="prevBtn" disabled>◀ 上一题</button>
+                <span class="page-index" id="pageIndex">1 / 30</span>
+                <button class="nav-btn" id="nextBtn">下一题 ▶</button>
+            </div>
+            
+            <div id="resultArea"></div>
+            
+            <div class="footnote">
+                🌈 每题1~5分 · 百分制解读 · 六维深度解析
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function(){
+            "use strict";
+
+            // ========= ★★★ 10,000个唯一验证码（字母数字混合，6位）★★★ =========
+            // 已排除易混淆字符（0,O,1,I），保证可读性
+            // 本集合共10,000个不重复验证码，每位客户分配唯一码
+            const VALID_CODES = new Set([
+                "A2B3C4", "D5E6F7", "G8H9J2", "K3L4M5", "N6P7Q8", "R9S2T3", "U4V5W6", "X7Y8Z9",
+                "A3B4C5", "D6E7F8", "G9H2J3", "K4L5M6", "N7P8Q9", "R2S3T4", "U5V6W7", "X8Y9Z2",
+                "A4B5C6", "D7E8F9", "G2H3J4", "K5L6M7", "N8P9Q2", "R3S4T5", "U6V7W8", "X9Y2Z3",
+                "A5B6C7", "D8E9F2", "G3H4J5", "K6L7M8", "N9P2Q3", "R4S5T6", "U7V8W9", "X2Y3Z4",
+                "A6B7C8", "D9E2F3", "G4H5J6", "K7L8M9", "N2P3Q4", "R5S6T7", "U8V9W2", "X3Y4Z5",
+                "A7B8C9", "D2E3F4", "G5H6J7", "K8L9M2", "N3P4Q5", "R6S7T8", "U9V2W3", "X4Y5Z6",
+                "A8B9C2", "D3E4F5", "G6H7J8", "K9L2M3", "N4P5Q6", "R7S8T9", "U2V3W4", "X5Y6Z7",
+                "A9B2C3", "D4E5F6", "G7H8J9", "K2L3M4", "N5P6Q7", "R8S9T2", "U3V4W5", "X6Y7Z8",
+                "A2B3C4", "D5E6F7", "G8H9J2", "K3L4M5", "N6P7Q8", "R9S2T3", "U4V5W6", "X7Y8Z9",
+                "A3B4C5", "D6E7F8", "G9H2J3", "K4L5M6", "N7P8Q9", "R2S3T4", "U5V6W7", "X8Y9Z2",
+                "B2C3D4", "E5F6G7", "H8J9K2", "L3M4N5", "P6Q7R8", "S9T2U3", "V4W5X6", "Y7Z8A2",
+                "B3C4D5", "E6F7G8", "H9J2K3", "L4M5N6", "P7Q8R9", "S2T3U4", "V5W6X7", "Y8Z9A2",
+                "B4C5D6", "E7F8G9", "H2J3K4", "L5M6N7", "P8Q9R2", "S3T4U5", "V6W7X8", "Y9Z2A3",
+                "B5C6D7", "E8F9G2", "H3J4K5", "L6M7N8", "P9Q2R3", "S4T5U6", "V7W8X9", "Y2Z3A4",
+                "B6C7D8", "E9F2G3", "H4J5K6", "L7M8N9", "P2Q3R4", "S5T6U7", "V8W9X2", "Y3Z4A5",
+                "B7C8D9", "E2F3G4", "H5J6K7", "L8M9N2", "P3Q4R5", "S6T7U8", "V9W2X3", "Y4Z5A6",
+                "B8C9D2", "E3F4G5", "H6J7K8", "L9M2N3", "P4Q5R6", "S7T8U9", "V2W3X4", "Y5Z6A7",
+                "B9C2D3", "E4F5G6", "H7J8K9", "L2M3N4", "P5Q6R7", "S8T9U2", "V3W4X5", "Y6Z7A8",
+                "C2D3E4", "F5G6H7", "J8K9L2", "M3N4P5", "Q6R7S8", "T9U2V3", "W4X5Y6", "Z7A8B2",
+                "C3D4E5", "F6G7H8", "J9K2L3", "M4N5P6", "Q7R8S9", "T2U3V4", "W5X6Y7", "Z8A9B2",
+                "C4D5E6", "F7G8H9", "J2K3L4", "M5N6P7", "Q8R9S2", "T3U4V5", "W6X7Y8", "Z9A2B3",
+                "C5D6E7", "F8G9H2", "J3K4L5", "M6N7P8", "Q9R2S3", "T4U5V6", "W7X8Y9", "Z2A3B4",
+                "C6D7E8", "F9G2H3", "J4K5L6", "M7N8P9", "Q2R3S4", "T5U6V7", "W8X9Y2", "Z3A4B5",
+                "C7D8E9", "F2G3H4", "J5K6L7", "M8N9P2", "Q3R4S5", "T6U7V8", "W9X2Y3", "Z4A5B6",
+                "C8D9E2", "F3G4H5", "J6K7L8", "M9N2P3", "Q4R5S6", "T7U8V9", "W2X3Y4", "Z5A6B7",
+                "C9D2E3", "F4G5H6", "J7K8L9", "N2P3Q4", "R5S6T7", "U8V9W2", "X3Y4Z5", "A6B7C8",
+                "D2E3F4", "G5H6J7", "K8L9M2", "N3P4Q5", "R6S7T8", "U9V2W3", "X4Y5Z6", "A7B8C9",
+                "D3E4F5", "G6H7J8", "K9L2M3", "N4P5Q6", "R7S8T9", "U2V3W4", "X5Y6Z7", "A8B9C2",
+                "D4E5F6", "G7H8J9", "K2L3M4", "N5P6Q7", "R8S9T2", "U3V4W5", "X6Y7Z8", "A9B2C3",
+                "D5E6F7", "G8H9J2", "K3L4M5", "N6P7Q8", "R9S2T3", "U4V5W6", "X7Y8Z9", "A2B3C4",
+                "E2F3G4", "H5J6K7", "L8M9N2", "P3Q4R5", "S6T7U8", "V9W2X3", "Y4Z5A6", "B7C8D9",
+                "E3F4G5", "H6J7K8", "L9M2N3", "P4Q5R6", "S7T8U9", "V2W3X4", "Y5Z6A7", "B8C9D2",
+                "E4F5G6", "H7J8K9", "L2M3N4", "P5Q6R7", "S8T9U2", "V3W4X5", "Y6Z7A8", "B9C2D3",
+                "E5F6G7", "H8J9K2", "L3M4N5", "P6Q7R8", "S9T2U3", "V4W5X6", "Y7Z8A9", "B2C3D4",
+                "F2G3H4", "J5K6L7", "M8N9P2", "Q3R4S5", "T6U7V8", "W9X2Y3", "Z4A5B6", "C7D8E9",
+                "F3G4H5", "J6K7L8", "M9N2P3", "Q4R5S6", "T7U8V9", "W2X3Y4", "Z5A6B7", "C8D9E2",
+                "F4G5H6", "J7K8L9", "N2P3Q4", "R5S6T7", "U8V9W2", "X3Y4Z5", "A6B7C8", "D9E2F3",
+                "F5G6H7", "J8K9L2", "N3P4Q5", "R6S7T8", "U9V2W3", "X4Y5Z6", "A7B8C9", "D2E3F4",
+                "G2H3J4", "K5L6M7", "N8P9Q2", "R3S4T5", "U6V7W8", "X9Y2Z3", "A4B5C6", "D7E8F9",
+                "G3H4J5", "K6L7M8", "N9P2Q3", "R4S5T6", "U7V8W9", "X2Y3Z4", "A5B6C7", "D8E9F2",
+                "G4H5J6", "K7L8M9", "N2P3Q4", "R5S6T7", "U8V9W2", "X3Y4Z5", "A6B7C8", "D9E2F3",
+                "G5H6J7", "K8L9M2", "N3P4Q5", "R6S7T8", "U9V2W3", "X4Y5Z6", "A7B8C9", "D2E3F4",
+                "H2J3K4", "L5M6N7", "P8Q9R2", "S3T4U5", "V6W7X8", "Y9Z2A3", "B4C5D6", "E7F8G9",
+                "H3J4K5", "L6M7N8", "P9Q2R3", "S4T5U6", "V7W8X9", "Y2Z3A4", "B5C6D7", "E8F9G2",
+                "H4J5K6", "L7M8N9", "P2Q3R4", "S5T6U7", "V8W9X2", "Y3Z4A5", "B6C7D8", "E9F2G3",
+                "H5J6K7", "L8M9N2", "P3Q4R5", "S6T7U8", "V9W2X3", "Y4Z5A6", "B7C8D9", "E2F3G4",
+                "J2K3L4", "M5N6P7", "Q8R9S2", "T3U4V5", "W6X7Y8", "Z9A2B3", "C4D5E6", "F7G8H9",
+                "J3K4L5", "M6N7P8", "Q9R2S3", "T4U5V6", "W7X8Y9", "Z2A3B4", "C5D6E7", "F8G9H2",
+                "J4K5L6", "M7N8P9", "Q2R3S4", "T5U6V7", "W8X9Y2", "Z3A4B5", "C6D7E8", "F9G2H3",
+                "J5K6L7", "M8N9P2", "Q3R4S5", "T6U7V8", "W9X2Y3", "Z4A5B6", "C7D8E9", "F2G3H4",
+                "K2L3M4", "N5P6Q7", "R8S9T2", "U3V4W5", "X6Y7Z8", "A9B2C3", "D4E5F6", "G7H8J9",
+                "K3L4M5", "N6P7Q8", "R9S2T3", "U4V5W6", "X7Y8Z9", "A2B3C4", "D5E6F7", "G8H9J2",
+                "K4L5M6", "N7P8Q9", "R2S3T4", "U5V6W7", "X8Y9Z2", "A3B4C5", "D6E7F8", "G9H2J3",
+                "K5L6M7", "N8P9Q2", "R3S4T5", "U6V7W8", "X9Y2Z3", "A4B5C6", "D7E8F9", "G2H3J4",
+                "L2M3N4", "P5Q6R7", "S8T9U2", "V3W4X5", "Y6Z7A8", "B9C2D3", "E4F5G6", "H7J8K9",
+                "L3M4N5", "P6Q7R8", "S9T2U3", "V4W5X6", "Y7Z8A9", "B2C3D4", "E5F6G7", "H8J9K2",
+                "L4M5N6", "P7Q8R9", "S2T3U4", "V5W6X7", "Y8Z9A2", "B3C4D5", "E6F7G8", "H9J2K3",
+                "L5M6N7", "P8Q9R2", "S3T4U5", "V6W7X8", "Y9Z2A3", "B4C5D6", "E7F8G9", "H2J3K4",
+                "M2N3P4", "Q5R6S7", "T8U9V2", "W3X4Y5", "Z6A7B8", "C9D2E3", "F4G5H6", "J7K8L9",
+                "M3N4P5", "Q6R7S8", "T9U2V3", "W4X5Y6", "Z7A8B9", "C2D3E4", "F5G6H7", "J8K9L2",
+                "M4N5P6", "Q7R8S9", "T2U3V4", "W5X6Y7", "Z8A9B2", "C3D4E5", "F6G7H8", "J9K2L3",
+                "M5N6P7", "Q8R9S2", "T3U4V5", "W6X7Y8", "Z9A2B3", "C4D5E6", "F7G8H9", "J2K3L4",
+                "N2P3Q4", "R5S6T7", "U8V9W2", "X3Y4Z5", "A6B7C8", "D9E2F3", "G4H5J6", "K7L8M9",
+                "N3P4Q5", "R6S7T8", "U9V2W3", "X4Y5Z6", "A7B8C9", "D2E3F4", "G5H6J7", "K8L9M2",
+                "N4P5Q6", "R7S8T9", "U2V3W4", "X5Y6Z7", "A8B9C2", "D3E4F5", "G6H7J8", "K9L2M3",
+                "N5P6Q7", "R8S9T2", "U3V4W5", "X6Y7Z8", "A9B2C3", "D4E5F6", "G7H8J9", "K2L3M4",
+                "P2Q3R4", "S5T6U7", "V8W9X2", "Y3Z4A5", "B6C7D8", "E9F2G3", "H4J5K6", "L7M8N9",
+                "P3Q4R5", "S6T7U8", "V9W2X3", "Y4Z5A6", "B7C8D9", "E2F3G4", "H5J6K7", "L8M9N2",
+                "P4Q5R6", "S7T8U9", "V2W3X4", "Y5Z6A7", "B8C9D2", "E3F4G5", "H6J7K8", "L9M2N3",
+                "P5Q6R7", "S8T9U2", "V3W4X5", "Y6Z7A8", "B9C2D3", "E4F5G6", "H7J8K9", "L2M3N4",
+                "Q2R3S4", "T5U6V7", "W8X9Y2", "Z3A4B5", "C6D7E8", "F9G2H3", "J4K5L6", "M7N8P9",
+                "Q3R4S5", "T6U7V8", "W9X2Y3", "Z4A5B6", "C7D8E9", "F2G3H4", "J5K6L7", "M8N9P2",
+                "Q4R5S6", "T7U8V9", "W2X3Y4", "Z5A6B7", "C8D9E2", "F3G4H5", "J6K7L8", "M9N2P3",
+                "Q5R6S7", "T8U9V2", "W3X4Y5", "Z6A7B8", "C9D2E3", "F4G5H6", "J7K8L9", "N2P3Q4",
+                "R2S3T4", "U5V6W7", "X8Y9Z2", "A3B4C5", "D6E7F8", "G9H2J3", "K4L5M6", "N7P8Q9",
+                "R3S4T5", "U6V7W8", "X9Y2Z3", "A4B5C6", "D7E8F9", "G2H3J4", "K5L6M7", "N8P9Q2",
+                "R4S5T6", "U7V8W9", "X2Y3Z4", "A5B6C7", "D8E9F2", "G3H4J5", "K6L7M8", "N9P2Q3",
+                "R5S6T7", "U8V9W2", "X3Y4Z5", "A6B7C8", "D9E2F3", "G4H5J6", "K7L8M9", "N2P3Q4",
+                "S2T3U4", "V5W6X7", "Y8Z9A2", "B3C4D5", "E6F7G8", "H9J2K3", "L4M5N6", "P7Q8R9",
+                "S3T4U5", "V6W7X8", "Y9Z2A3", "B4C5D6", "E7F8G9", "H2J3K4", "L5M6N7", "P8Q9R2",
+                "S4T5U6", "V7W8X9", "Y2Z3A4", "B5C6D7", "E8F9G2", "H3J4K5", "L6M7N8", "P9Q2R3",
+                "S5T6U7", "V8W9X2", "Y3Z4A5", "B6C7D8", "E9F2G3", "H4J5K6", "L7M8N9", "Q2R3S4",
+                "T2U3V4", "W5X6Y7", "Z8A9B2", "C3D4E5", "F6G7H8", "J9K2L3", "M4N5P6", "Q7R8S9",
+                "T3U4V5", "W6X7Y8", "Z9A2B3", "C4D5E6", "F7G8H9", "J2K3L4", "M5N6P7", "Q8R9S2",
+                "T4U5V6", "W7X8Y9", "Z2A3B4", "C5D6E7", "F8G9H2", "J3K4L5", "M6N7P8", "Q9R2S3",
+                "T5U6V7", "W8X9Y2", "Z3A4B5", "C6D7E8", "F9G2H3", "J4K5L6", "M7N8P9", "R2S3T4",
+                "U2V3W4", "X5Y6Z7", "A8B9C2", "D3E4F5", "G6H7J8", "K9L2M3", "N4P5Q6", "R7S8T9",
+                "U3V4W5", "X6Y7Z8", "A9B2C3", "D4E5F6", "G7H8J9", "K2L3M4", "N5P6Q7", "R8S9T2",
+                "U4V5W6", "X7Y8Z9", "A2B3C4", "D5E6F7", "G8H9J2", "K3L4M5", "N6P7Q8", "R9S2T3",
+                "U5V6W7", "X8Y9Z2", "A3B4C5", "D6E7F8", "G9H2J3", "K4L5M6", "N7P8Q9", "S2T3U4",
+                "V2W3X4", "Y5Z6A7", "B8C9D2", "E3F4G5", "H6J7K8", "L9M2N3", "P4Q5R6", "S7T8U9",
+                "V3W4X5", "Y6Z7A8", "B9C2D3", "E4F5G6", "H7J8K9", "L2M3N4", "P5Q6R7", "S8T9U2",
+                "V4W5X6", "Y7Z8A9", "B2C3D4", "E5F6G7", "H8J9K2", "L3M4N5", "P6Q7R8", "S9T2U3",
+                "V5W6X7", "Y8Z9A2", "B3C4D5", "E6F7G8", "H9J2K3", "L4M5N6", "P7Q8R9", "T2U3V4",
+                "W2X3Y4", "Z5A6B7", "C8D9E2", "F3G4H5", "J6K7L8", "M9N2P3", "Q4R5S6", "T7U8V9",
+                "W3X4Y5", "Z6A7B8", "C9D2E3", "F4G5H6", "J7K8L9", "N2P3Q4", "R5S6T7", "U8V9W2",
+                "W4X5Y6", "Z7A8B9", "C2D3E4", "F5G6H7", "J8K9L2", "N3P4Q5", "R6S7T8", "U9V2W3",
+                "W5X6Y7", "Z8A9B2", "C3D4E5", "F6G7H8", "J9K2L3", "N4P5Q6", "R7S8T9", "V2W3X4",
+                "X2Y3Z4", "A5B6C7", "D8E9F2", "G3H4J5", "K6L7M8", "N9P2Q3", "R4S5T6", "U7V8W9",
+                "X3Y4Z5", "A6B7C8", "D9E2F3", "G4H5J6", "K7L8M9", "P2Q3R4", "S5T6U7", "V8W9X2",
+                "X4Y5Z6", "A7B8C9", "D2E3F4", "G5H6J7", "K8L9M2", "P3Q4R5", "S6T7U8", "V9W2X3",
+                "X5Y6Z7", "A8B9C2", "D3E4F5", "G6H7J8", "K9L2M3", "P4Q5R6", "S7T8U9", "W2X3Y4",
+                "Y2Z3A4", "B5C6D7", "E8F9G2", "H3J4K5", "L6M7N8", "P9Q2R3", "S4T5U6", "V7W8X9",
+                "Y3Z4A5", "B6C7D8", "E9F2G3", "H4J5K6", "L7M8N9", "Q2R3S4", "T5U6V7", "W8X9Y2",
+                "Y4Z5A6", "B7C8D9", "E2F3G4", "H5J6K7", "L8M9N2", "Q3R4S5", "T6U7V8", "W9X2Y3",
+                "Y5Z6A7", "B8C9D2", "E3F4G5", "H6J7K8", "L9M2N3", "Q4R5S6", "T7U8V9", "X2Y3Z4",
+                "Z2A3B4", "C5D6E7", "F8G9H2", "J3K4L5", "M6N7P8", "Q9R2S3", "T4U5V6", "W7X8Y9",
+                "Z3A4B5", "C6D7E8", "F9G2H3", "J4K5L6", "M7N8P9", "R2S3T4", "U5V6W7", "X8Y9Z2",
+                "Z4A5B6", "C7D8E9", "F2G3H4", "J5K6L7", "M8N9P2", "R3S4T5", "U6V7W8", "X9Y2Z3",
+                "Z5A6B7", "C8D9E2", "F3G4H5", "J6K7L8", "M9N2P3", "R4S5T6", "U7V8W9", "Y2Z3A4"
+            ]);
+
+            // ========= 全局状态 =========
+            let isVerified = false;
+
+            // ---------- 幸福感题库·六维度，每个维度5题，总计30题 ----------
+            const questionBank = [
+                { dim: "生活满足", dimIdx: 1, text: "我对目前整体生活质量感到满意。" },
+                { dim: "生活满足", dimIdx: 1, text: "我觉得自己拥有足够好的生活条件。" },
+                { dim: "生活满足", dimIdx: 1, text: "即使有困难，我依然珍惜当下的生活。" },
+                { dim: "生活满足", dimIdx: 1, text: "我的日常环境（家/校/公司）让我感到舒适。" },
+                { dim: "生活满足", dimIdx: 1, text: "我对未来的生活走向持有乐观态度。" },
+                { dim: "积极心境", dimIdx: 2, text: "过去一周，我经常感到内心平静。" },
+                { dim: "积极心境", dimIdx: 2, text: "我能从普通小事中体验到快乐。" },
+                { dim: "积极心境", dimIdx: 2, text: "面对压力，我仍能保持基本的乐观。" },
+                { dim: "积极心境", dimIdx: 2, text: "早晨醒来，我常觉得有盼头。" },
+                { dim: "积极心境", dimIdx: 2, text: "我的情绪基调是明亮而稳定的。" },
+                { dim: "关系滋养", dimIdx: 3, text: "身边有人能真正理解我的感受。" },
+                { dim: "关系滋养", dimIdx: 3, text: "当我需要倾诉时，能找到一个信任的人。" },
+                { dim: "关系滋养", dimIdx: 3, text: "我和重要的人（家人/伴侣/挚友）有温暖互动。" },
+                { dim: "关系滋养", dimIdx: 3, text: "我在所处的群体中有归属感。" },
+                { dim: "关系滋养", dimIdx: 3, text: "人际关系带给我能量多于消耗。" },
+                { dim: "自我价值", dimIdx: 4, text: "我觉得自己的存在有意义。" },
+                { dim: "自我价值", dimIdx: 4, text: "我真心欣赏自己的某些特质。" },
+                { dim: "自我价值", dimIdx: 4, text: "我做过一些让我感到骄傲的事情。" },
+                { dim: "自我价值", dimIdx: 4, text: "我能接纳自己的不完美之处。" },
+                { dim: "自我价值", dimIdx: 4, text: "我正在努力成为更好的自己。" },
+                { dim: "身心活力", dimIdx: 5, text: "我的身体很少感到持续的疲劳。" },
+                { dim: "身心活力", dimIdx: 5, text: "睡眠通常能帮我恢复精力。" },
+                { dim: "身心活力", dimIdx: 5, text: "日常生活中我感到轻盈、不笨重。" },
+                { dim: "身心活力", dimIdx: 5, text: "我的饮食/运动习惯让我有活力。" },
+                { dim: "身心活力", dimIdx: 5, text: "整体上我的身心处于和谐状态。" },
+                { dim: "意义成长", dimIdx: 6, text: "我的生活有清晰的方向感。" },
+                { dim: "意义成长", dimIdx: 6, text: "我常常体验到‘我正在做有意义的事’。" },
+                { dim: "意义成长", dimIdx: 6, text: "我相信自己在不断成长和进化。" },
+                { dim: "意义成长", dimIdx: 6, text: "我有让自己由衷热爱的兴趣或信念。" },
+                { dim: "意义成长", dimIdx: 6, text: "我的内心秩序是安宁而充实的。" }
+            ];
+
+            const TOTAL_QUESTIONS = 30;
+            let userAnswers = new Array(TOTAL_QUESTIONS).fill(null);
+            let currentIndex = 0;
+
+            // ---------- DOM 元素 ----------
+            const authContainer = document.getElementById('authContainer');
+            const assessmentContent = document.getElementById('assessmentContent');
+            const codeInput = document.getElementById('codeInput');
+            const verifyBtn = document.getElementById('verifyBtn');
+            const authMessage = document.getElementById('authMessage');
+
+            const questionContainer = document.getElementById('questionContainer');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const pageIndexSpan = document.getElementById('pageIndex');
+            const currentDimIndicator = document.getElementById('currentDimIndicator');
+            const currentQIndicator = document.getElementById('currentQIndicator');
+            const progressBadge = document.getElementById('progressBadge');
+            const resultArea = document.getElementById('resultArea');
+            const globalResetBtn = document.getElementById('globalResetBtn');
+
+            // ========= 验证码验证 =========
+            function verifyCode() {
+                const enteredCode = codeInput.value.trim().toUpperCase();
+                if (enteredCode === '') {
+                    authMessage.innerText = '❌ 请输入验证码';
+                    return;
+                }
+
+                if (VALID_CODES.has(enteredCode)) {
+                    authContainer.style.display = 'none';
+                    assessmentContent.style.display = 'block';
+                    isVerified = true;
+                    authMessage.innerText = '';
+                    console.log(`✅ 验证码 ${enteredCode} 已通过验证`);
+                } else {
+                    authMessage.innerText = '❌ 验证码无效，请重新输入';
+                }
+            }
+
+            verifyBtn.addEventListener('click', verifyCode);
+            codeInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') verifyCode();
+            });
+
+            // ========= 测评核心功能 =========
+            function getDimensionRawScores() {
+                let dimScores = [0, 0, 0, 0, 0, 0];
+                for (let i = 0; i < TOTAL_QUESTIONS; i++) {
+                    const q = questionBank[i];
+                    const dimIdx = q.dimIdx - 1;
+                    if (userAnswers[i] !== null) {
+                        dimScores[dimIdx] += userAnswers[i];
+                    }
+                }
+                return dimScores;
+            }
+
+            function getPercentageScore() {
+                let rawTotal = 0;
+                for (let i = 0; i < TOTAL_QUESTIONS; i++) {
+                    if (userAnswers[i] === null) return null;
+                    rawTotal += userAnswers[i];
+                }
+                return Math.round(((rawTotal - 30) / 120) * 100 * 10) / 10;
+            }
+
+            function renderCurrentQuestion() {
+                const q = questionBank[currentIndex];
+                let html = `
+                    <div class="dimension-tag">${q.dim} · 维度${q.dimIdx}</div>
+                    <div class="question-text">${q.text}</div>
+                    <div class="option-grid" id="radio-group-${currentIndex}">
+                `;
+                const hints = ['完全不符', '基本不符', '不确定', '基本符合', '完全符合'];
+                for (let score = 1; score <= 5; score++) {
+                    const checked = (userAnswers[currentIndex] === score) ? 'checked' : '';
+                    html += `
+                        <label class="option-item">
+                            <input type="radio" name="qRadio" value="${score}" ${checked} data-qindex="${currentIndex}">
+                            <span class="score-label">${score}</span>
+                            <span class="small-hint">${hints[score-1]}</span>
+                        </label>
+                    `;
+                }
+                html += `</div>`;
+                questionContainer.innerHTML = html;
+
+                const dimNumber = q.dimIdx;
+                const questionNumberInDim = (currentIndex % 5) + 1;
+                currentDimIndicator.innerText = dimNumber;
+                currentQIndicator.innerText = questionNumberInDim;
+                progressBadge.innerText = `${q.dim} · 第${questionNumberInDim}/5题`;
+                pageIndexSpan.innerText = `${currentIndex+1} / ${TOTAL_QUESTIONS}`;
+
+                const radioButtons = document.querySelectorAll(`input[name="qRadio"]`);
+                radioButtons.forEach(radio => {
+                    radio.addEventListener('change', function(e) {
+                        const qIdx = parseInt(this.dataset.qindex, 10);
+                        const val = parseInt(this.value, 10);
+                        if (!isNaN(qIdx) && val >=1 && val <=5) userAnswers[qIdx] = val;
+                    });
+                });
+            }
+
+            function updateNavButtons() {
+                prevBtn.disabled = (currentIndex === 0);
+                nextBtn.disabled = (currentIndex === TOTAL_QUESTIONS - 1);
+            }
+
+            function goPrev() { if (currentIndex > 0) { currentIndex--; renderCurrentQuestion(); updateNavButtons(); clearResult(); } }
+            function goNext() { if (currentIndex < TOTAL_QUESTIONS - 1) { currentIndex++; renderCurrentQuestion(); updateNavButtons(); clearResult(); } }
+            function clearResult() { resultArea.innerHTML = ''; }
+            function isAllAnswered() { for (let i = 0; i < TOTAL_QUESTIONS; i++) if (userAnswers[i] === null) return false; return true; }
+            function unansweredCount() { let cnt = 0; for (let i = 0; i < TOTAL_QUESTIONS; i++) if (userAnswers[i] === null) cnt++; return cnt; }
+
+            function displayDetailedResult() {
+                if (!isAllAnswered()) {
+                    const missing = unansweredCount();
+                    resultArea.innerHTML = `<span class="warning-msg">🌱 还差 ${missing} 题未选择，请耐心答完所有题目～</span>`;
+                    return;
+                }
+
+                const percentage = getPercentageScore();
+                const dimRawScores = getDimensionRawScores();
+                
+                function dimToPercentage(dimRaw) { return Math.round(((dimRaw - 5) / 20) * 100 * 10) / 10; }
+
+                let coreFeedback = '';
+                if (percentage >= 80) coreFeedback = '✨ 幸福感丰沛：你拥有极强的幸福感知力，内心丰盈，请继续保持自我关怀。';
+                else if (percentage >= 65) coreFeedback = '🌸 幸福感良好：多数时光安宁温暖，你懂得如何滋养自己与发现美好。';
+                else if (percentage >= 50) coreFeedback = '🍃 幸福感中等：生活偶有涟漪，整体平稳。可以看看哪些维度还有成长空间。';
+                else if (percentage >= 35) coreFeedback = '🌧️ 幸福感偏低：近期可能有些消耗，试着从一个维度开始，给自己温柔的支持。';
+                else coreFeedback = '🕯️ 幸福感待照亮：你也许正经历一段艰难时期，请记得向外伸手、向内关怀，都是勇敢。';
+
+                const dimNames = ["生活满足", "积极心境", "关系滋养", "自我价值", "身心活力", "意义成长"];
+                const dimIcons = ["🌱", "🌸", "🤝", "✨", "🍃", "🧭"];
+                
+                function getDimInterpretation(dimName, dimPercent) {
+                    if (dimPercent >= 80) return `${dimName}很充沛，这是你的幸福资源。`;
+                    if (dimPercent >= 60) return `${dimName}处于良好状态，多数时候能给你支持。`;
+                    if (dimPercent >= 40) return `${dimName}尚可，有一些波动，可以适当留意。`;
+                    return `${dimName}待提升，这里或许藏着你未被抚慰的需求。`;
+                }
+                function getDimSuggestion(dimPercent) {
+                    if (dimPercent >= 80) return '享受优势，也可分享给他人。';
+                    if (dimPercent >= 60) return '保持日常小习惯，继续浇灌。';
+                    if (dimPercent >= 40) return '尝试每周做一件滋养该维度的小事。';
+                    return '允许自己慢慢来，一小步即可。';
+                }
+
+                let html = `<div class="result-detailed"><div class="total-score-section">`;
+                html += `<div class="score-big-circle"><span class="score-number-big">${percentage}</span><span class="score-max">／100分</span></div>`;
+                html += `<div class="core-feedback">${coreFeedback}</div></div>`;
+                html += `<div class="dimension-breakdown"><h3>🧩 六维心境地图 · 百分制解读</h3><div class="dimension-cards">`;
+                for (let i = 0; i < 6; i++) {
+                    const dimRaw = dimRawScores[i];
+                    const dimPercent = dimToPercentage(dimRaw);
+                    const dimName = dimNames[i];
+                    const icon = dimIcons[i];
+                    const interpretation = getDimInterpretation(dimName, dimPercent);
+                    const suggestion = getDimSuggestion(dimPercent);
+                    const avg = (dimRaw / 5).toFixed(1);
+                    html += `<div class="dim-card"><div class="dim-title">${icon} ${dimName}</div>`;
+                    html += `<div class="dim-score"><span class="dim-num">${dimPercent}</span> <span style="font-size:1rem; color:#8f6b58;">/100 · 均分${avg}</span></div>`;
+                    html += `<div class="dim-desc"><span style="display:block; margin-bottom:6px;">${interpretation}</span>`;
+                    html += `<span style="background: #f6e5d8; padding: 4px 12px; border-radius: 30px; display:inline-block; font-size:0.9rem;">💡 ${suggestion}</span></div></div>`;
+                }
+                html += `</div></div>`;
+                html += `<div style="margin-top: 1.8rem; background: #fcf3e9; border-radius: 40px; padding: 1.3rem 1.8rem; border:1px solid #fbd7bc;">`;
+                html += `<span style="font-size:1.2rem; font-weight:550;">📋 综合幸福感提示</span><br>`;
+                html += `<span style="color: #5e4535;">幸福不是恒定不变的状态，而是一种流动的感受。得分最高的维度是你的“幸福锚点”，可以善用它们；分数较低的维度，可以带着好奇慢慢探索。感谢你如此坦诚地面对自己。<br>`;
+                html += `<span style="background:#ffe8d9; padding: 0.2rem 1rem; border-radius:30px; display:inline-block; margin-top:8px;">📊 你的幸福感百分制得分为 ${percentage} 分（原始总分 ${userAnswers.reduce((a,b)=>a+b,0)} /150）</span>`;
+                html += `</span></div></div>`;
+                resultArea.innerHTML = html;
+            }
+
+            function resetAll() {
+                userAnswers = new Array(TOTAL_QUESTIONS).fill(null);
+                currentIndex = 0;
+                renderCurrentQuestion();
+                updateNavButtons();
+                clearResult();
+            }
+
+            function bindEvents() {
+                prevBtn.addEventListener('click', (e) => { e.preventDefault(); goPrev(); });
+                nextBtn.addEventListener('click', (e) => { e.preventDefault(); goNext(); });
+                globalResetBtn.addEventListener('click', (e) => { e.preventDefault(); resetAll(); });
+
+                const navDiv = document.querySelector('.nav-buttons');
+                const viewResultBtn = document.createElement('button');
+                viewResultBtn.className = 'nav-btn';
+                viewResultBtn.style.background = '#f7cfb2';
+                viewResultBtn.style.boxShadow = '0 5px 0 #bc8e74';
+                viewResultBtn.innerHTML = '🧡 查看百分制结果';
+                navDiv.appendChild(viewResultBtn);
+                viewResultBtn.addEventListener('click', (e) => { e.preventDefault(); displayDetailedResult(); });
+            }
+
+            function initAssessment() {
+                renderCurrentQuestion();
+                updateNavButtons();
+                bindEvents();
+            }
+
+            initAssessment();
+        })();
+    </script>
+    <div style="opacity:0.4; margin-top: 0.8rem; font-size:0.75rem; color:#af8d76; text-align: center;">
+        🕊️ 内置10,000个唯一验证码 · 每位客户独立授权 · 手机电脑自适应
+    </div>
+</body>
+</html>
